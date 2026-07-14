@@ -352,13 +352,47 @@ const style = `
     font-size: 0.7rem; letter-spacing: 2.5px; text-transform: uppercase;
     color: var(--gold); margin-bottom: 16px;
   }
-  .project-desc { font-size: 0.9rem; color: #9ca3af; line-height: 1.65; }
+  .project-highlights { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .project-highlights li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 0.88rem; color: #9ca3af; line-height: 1.5;
+  }
+  .project-highlights li::before {
+    content: '—'; color: var(--gold); flex-shrink: 0;
+  }
+  .project-links { display: flex; gap: 14px; margin-top: 20px; }
+  .project-link {
+    font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--gold); text-decoration: none;
+    border-bottom: 1px solid rgba(201,168,76,0.35);
+    padding-bottom: 2px;
+    transition: border-color 0.3s;
+  }
+  .project-link:hover { border-color: var(--gold); }
   .project-arrow {
     position: absolute; bottom: 32px; right: 36px;
     font-size: 1.5rem; color: var(--border);
     transition: all 0.3s;
   }
   .project-card:hover .project-arrow { color: var(--gold); transform: translate(3px, -3px); }
+
+  /* ── EDUCATION ── */
+  .edu-grid { display: flex; flex-direction: column; gap: 2px; }
+  .edu-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 24px;
+    align-items: baseline;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px 32px;
+    transition: all 0.3s;
+  }
+  .edu-row:hover { border-color: rgba(201,168,76,0.25); background: #151e30; }
+  .edu-degree { font-size: 1rem; font-weight: 500; color: var(--text); }
+  .edu-school { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+  .edu-score { font-size: 0.8rem; color: var(--gold); letter-spacing: 1px; white-space: nowrap; }
+  .edu-year { font-size: 0.8rem; color: var(--muted); letter-spacing: 1px; white-space: nowrap; }
 
   /* ── CONTACT ── */
   .contact-wrap { background: var(--bg2); padding: 120px 0; }
@@ -427,6 +461,11 @@ const style = `
   .reveal-delay-3 { transition-delay: 0.3s; }
   .reveal-delay-4 { transition-delay: 0.4s; }
 
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .nav { padding: 18px 24px; }
@@ -437,6 +476,7 @@ const style = `
     .about-stat-grid { grid-template-columns: 1fr 1fr; }
     .experience-inner, .contact-inner { padding: 0 24px; }
     .experience-wrap, .contact-wrap { padding: 80px 0; }
+    .edu-row { grid-template-columns: 1fr; gap: 6px; }
     .footer { padding: 24px; flex-direction: column; text-align: center; }
     .hero-name { letter-spacing: -1px; }
   }
@@ -450,18 +490,37 @@ const projects = [
   {
     num: "01",
     title: "Rental Property Portal",
-    stack: "React · Spring Boot · MySQL",
-    desc: "A full-stack platform enabling property listings, tenant management, and rental workflows with secure REST API integration.",
+    stack: "React · Node js · MongoDB",
+    highlights: [
+      "Full-stack rental management system",
+      "Authentication and role-based access control",
+      "Property listing, booking, and admin dashboard",
+      "Responsive UI with integrated REST APIs",
+    ],
+    demo: "#",
+    repo: "https://github.com/abinesh0477",
   },
   {
     num: "02",
     title: "Employee Management System",
-    stack: "Angular · Spring Boot",
-    desc: "Enterprise-grade CRUD application for HR operations, featuring role-based access control and real-time dashboard analytics.",
+    stack: "React · Node js",
+    highlights: [
+      "Employee registration with full CRUD operations",
+      "REST APIs for backend communication",
+      "Responsive, user-friendly interface",
+    ],
+    demo: "#",
+    repo: "https://github.com/abinesh0477",
   },
 ];
 
-const skills = ["React", "Angular", "Spring Boot", "MySQL", "Oracle", "REST API", "Java", "JavaScript", "Git", "TypeScript"];
+const education = [
+  { degree: "B.E. — Mechanical Engineering", school: "Government College of Engineering, Tirunelveli", score: "7.6 CGPA", year: "2024" },
+  { degree: "HSC", school: "Sri Jayendra Golden Jubilee School, Tirunelveli", score: "62%", year: "2020" },
+  { degree: "SSLC", school: "Sri Jayendra Golden Jubilee School, Tirunelveli", score: "75%", year: "2018" },
+];
+
+const skills = ["React", "Angular", "TypeScript", "Java", "Spring Boot", "Node.js", "MySQL", "Oracle SQL", "MongoDB", "REST API", "Git", "Postman", "Swagger", "Bootstrap", "Material UI"];
 
 export default function Portfolio() {
   const [scrolled, setScrolled] = useState(false);
@@ -491,21 +550,19 @@ export default function Portfolio() {
     <>
       <style>{style}</style>
 
-      {/* Cursor */}
       <div className="cursor" style={{ left: cursorPos.x - 5, top: cursorPos.y - 5 }} />
 
-      {/* ── NAVBAR ── */}
       <nav className="nav" style={{ boxShadow: scrolled ? "0 4px 30px rgba(0,0,0,0.5)" : "none" }}>
         <a href="#hero" className="nav-logo">A.</a>
         <ul className="nav-links">
           <li><a href="#about">About</a></li>
           <li><a href="#experience">Experience</a></li>
           <li><a href="#projects">Projects</a></li>
+          <li><a href="#education">Education</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
 
-      {/* ── HERO ── */}
       <section id="hero" className="hero">
         <div className="hero-bg" />
         <div className="hero-grid" />
@@ -538,10 +595,10 @@ export default function Portfolio() {
         <div className="about-grid">
           <div ref={addRef} className="reveal reveal-delay-1 about-text">
             <p>
-              I'm a <strong>passionate Full Stack Developer</strong> with a drive for building digital experiences that are both functional and beautiful. Currently growing as a Trainee Software Engineer at <strong>Aadasteck, Chennai</strong>.
+              I'm a <strong>Software Engineer</strong> with hands-on experience in full-stack web development using React, Java, Node.js, and Spring Boot. Currently working as a Trainee Software Engineer, contributing to REST API development, UI enhancement, and database management.
             </p>
             <p>
-              My work spans across modern frontend frameworks and solid backend engineering — I bridge the gap between design and logic to deliver complete, production-ready applications.
+              Passionate about building <strong>scalable, secure, and high-performance applications</strong> — I bridge the gap between design and logic to deliver complete, production-ready systems.
             </p>
             <div className="about-skills">
               {skills.map((s) => <span key={s} className="skill-tag">{s}</span>)}
@@ -563,7 +620,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ── EXPERIENCE ── */}
       <div id="experience" className="experience-wrap">
         <div className="experience-inner">
           <div ref={addRef} className="reveal">
@@ -572,21 +628,21 @@ export default function Portfolio() {
           </div>
           <div className="exp-timeline">
             <div ref={addRef} className="reveal reveal-delay-1 exp-item">
-              <div className="exp-date">Apr 2025 – Present</div>
+              <div className="exp-date">Nov 2025 – Present</div>
               <h3 className="exp-role">Trainee Software Engineer</h3>
               <div className="exp-company">Aadasteck · Chennai, India</div>
               <ul className="exp-list">
-                <li>Developed and maintained production-ready REST APIs using <strong>Spring Boot</strong>, ensuring scalability and security.</li>
-                <li>Built responsive, component-driven UIs using <strong>React</strong> and <strong>Angular</strong>, enhancing user experience.</li>
-                <li>Designed and optimized relational database schemas with <strong>MySQL</strong> and <strong>Oracle</strong>.</li>
-                <li>Collaborated in agile sprints, participating in code reviews and technical discussions.</li>
+                <li>Contributed to both frontend and backend module development using <strong>Java</strong>, <strong>Node js</strong>, <strong>Angular</strong>, and <strong>React</strong>.</li>
+                <li>Designed and integrated RESTful APIs, ensuring smooth communication between application layers.</li>
+                <li>Assisted in debugging, testing, and database schema optimization using <strong>MySQL</strong> and <strong>MongoDB</strong>.</li>
+                <li>Gained hands-on experience with Git version control, Swagger API documentation, and database optimization techniques.</li>
+                <li>Improved UI/UX design and responsiveness using <strong>Bootstrap</strong> and <strong>Material UI</strong>.</li>
               </ul>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── PROJECTS ── */}
       <section id="projects" className="section">
         <div ref={addRef} className="reveal">
           <div className="section-label">Work</div>
@@ -598,14 +654,38 @@ export default function Portfolio() {
               <div className="project-num">{p.num}</div>
               <h3 className="project-title">{p.title}</h3>
               <div className="project-stack">{p.stack}</div>
-              <p className="project-desc">{p.desc}</p>
+              <ul className="project-highlights">
+                {p.highlights.map((h) => <li key={h}>{h}</li>)}
+              </ul>
+              <div className="project-links">
+                <a href={p.demo} className="project-link">Live Demo</a>
+                <a href={p.repo} target="_blank" rel="noreferrer" className="project-link">Source</a>
+              </div>
               <div className="project-arrow">↗</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── CONTACT ── */}
+      <section id="education" className="section">
+        <div ref={addRef} className="reveal">
+          <div className="section-label">Background</div>
+          <h2 className="section-title">Education</h2>
+        </div>
+        <div className="edu-grid">
+          {education.map((e, i) => (
+            <div ref={addRef} key={e.degree} className={`reveal reveal-delay-${i + 1} edu-row`}>
+              <div>
+                <div className="edu-degree">{e.degree}</div>
+                <div className="edu-school">{e.school}</div>
+              </div>
+              <div className="edu-score">{e.score}</div>
+              <div className="edu-year">{e.year}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <div id="contact" className="contact-wrap">
         <div className="contact-inner">
           <div ref={addRef} className="reveal">
@@ -615,11 +695,18 @@ export default function Portfolio() {
             <div ref={addRef} className="reveal reveal-delay-1">
               <h2 className="contact-headline">Have a project in mind? Let's build it together.</h2>
               <p className="contact-sub">
-                I'm currently open to full-time roles and freelance projects. Whether you have a product idea or need a reliable engineer on your team, I'd love to hear from you.
+                I'm currently open to full-time roles and freelance projects, including relocation. Whether you have a product idea or need a reliable engineer on your team, I'd love to hear from you.
               </p>
             </div>
             <div ref={addRef} className="reveal reveal-delay-2">
               <div className="contact-links">
+                <a href="tel:+919095676346" className="contact-link">
+                  <span className="contact-link-icon">☎</span>
+                  <span className="contact-link-text">
+                    <span className="contact-link-label">Phone</span>
+                    <span className="contact-link-value">+91 90956 76346</span>
+                  </span>
+                </a>
                 <a href="mailto:abia80798@gmail.com" className="contact-link">
                   <span className="contact-link-icon">✉</span>
                   <span className="contact-link-text">
@@ -647,7 +734,6 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* ── FOOTER ── */}
       <footer className="footer">
         <span className="footer-logo">Abinesh A</span>
         <span>© {new Date().getFullYear()} · Crafted with precision & passion</span>
